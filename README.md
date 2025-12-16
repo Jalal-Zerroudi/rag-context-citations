@@ -24,7 +24,6 @@ Un **RAG local** (PDF/TXT → chunks → embeddings → **FAISS**) avec un mode 
 ---
 
 ## Arborescence
-```
 
 .
 ├── app.py
@@ -47,7 +46,6 @@ Un **RAG local** (PDF/TXT → chunks → embeddings → **FAISS**) avec un mode 
 └── templates/
     └── index.html
 
-````
 
 ---
 
@@ -77,11 +75,10 @@ pip install -r requirements.txt
 
 Crée un fichier `.env` à la racine :
 
-```env
+env
 ATLASCLOUD_API_KEY=xxxxx
 # Optionnel
 ATLAS_MODEL=openai/gpt-oss-20b
-```
 
 ---
 
