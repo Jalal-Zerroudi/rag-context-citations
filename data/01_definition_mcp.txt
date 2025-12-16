@@ -1,0 +1,17 @@
+Le Model Context Protocol (MCP) est un protocole standard ouvert qui permet de connecter facilement un modèle d’intelligence artificielle (comme ChatGPT, Claude ou Gemini) à des outils, des services et des sources de données externes.
+
+L’idée principale est la suivante :
+au lieu de créer une intégration différente pour chaque modèle d’IA et chaque service (API, base de données, fichiers, etc.), on utilise MCP comme “couche standard” de communication.
+
+On peut voir MCP comme le “USB-C de l’IA” :
+- les modèles d’IA sont les appareils (comme un ordinateur),
+- les outils et services sont les périphériques (disques, écrans, API),
+- MCP est le port standard qui permet de tout brancher proprement.
+
+MCP décrit :
+- comment un client (assistant IA, application) discute avec un serveur MCP,
+- comment énumérer les outils disponibles,
+- comment envoyer des requêtes (par exemple : lire un fichier, appeler une API, lancer une recherche),
+- comment recevoir les réponses.
+
+C’est un protocole ouvert et multiplateforme, conçu pour être réutilisé par différents acteurs de l’écosystème IA.
