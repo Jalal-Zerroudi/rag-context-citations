@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterator, List, Dict, Any, Union
+from typing import Iterator, List, Dict, Any
 import hashlib
 
 from pypdf import PdfReader
@@ -18,7 +18,7 @@ def sha256_file(path: Path) -> str:
             h.update(chunk)
     return h.hexdigest()
 
-def iter_files(data_dir: Union[Path, List[Path]]) -> Iterator[Path]:
+def iter_files(data_dir: Path | List[Path]) -> Iterator[Path]:
     dirs = [data_dir] if isinstance(data_dir, Path) else data_dir
     for directory in dirs:
         for p in directory.rglob("*"):
