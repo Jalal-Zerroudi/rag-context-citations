@@ -449,10 +449,11 @@ def main():
 
     root = Path(__file__).parent
     data_dir = root / "data"
+    datat_dir = root / "datat"
     cache_dir = root / "cache"
 
     print("🔄 Chargement index RAG...")
-    rag_index = build_or_load_index(data_dir=data_dir, cache_dir=cache_dir)
+    rag_index = build_or_load_index(data_dir=[data_dir, datat_dir], cache_dir=cache_dir)
     retriever = Retriever(rag_index)
     print("✅ Index prêt.\n")
 
