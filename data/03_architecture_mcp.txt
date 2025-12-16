@@ -1,0 +1,45 @@
+Dans l’architecture MCP, on trouve plusieurs rôles importants.
+
+1) Client MCP
+Le client MCP est généralement :
+- un assistant IA (ChatGPT, Claude, Gemini, etc.),
+- ou une application qui pilote un modèle d’IA.
+
+Il envoie des requêtes au serveur MCP pour :
+- lister les outils disponibles,
+- appeler un outil,
+- lire des ressources,
+- obtenir du contexte.
+
+2) Serveur MCP
+Le serveur MCP est la “passerelle” vers un système externe.
+Il peut se connecter à :
+- une base de données,
+- un service web (API REST),
+- des fichiers locaux,
+- un outil métier (CRM, ERP, Git, etc.).
+
+Le serveur MCP expose :
+- des outils (tools),
+- des ressources (resources),
+- éventuellement des prompts ou configurations.
+
+3) Modèle d’IA
+Le modèle d’IA n’est pas forcément conscient de tous les détails techniques du protocole.
+En pratique :
+- le client MCP gère la logique du protocole,
+- le modèle d’IA propose quoi faire (“appeler tel outil avec tels paramètres”),
+- le client exécute l’action via le serveur MCP.
+
+4) Communication
+MCP s’inspire d’architectures existantes (comme le Language Server Protocol) et utilise :
+- des messages structurés,
+- basés sur JSON,
+- avec un échange standardisé entre client et serveur.
+
+5) Outillage
+Autour de MCP, on trouve :
+- des SDK dans plusieurs langages (TypeScript, Python, etc.),
+- des exemples de serveurs MCP connectés à Google Drive, Slack, GitHub, bases SQL, etc.
+
+Cette architecture permet de brancher un même assistant IA sur plusieurs serveurs MCP, et donc sur plusieurs systèmes d’information, sans tout recoder.

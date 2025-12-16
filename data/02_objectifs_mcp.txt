@@ -1,0 +1,34 @@
+Les objectifs principaux du Model Context Protocol (MCP) sont :
+
+1) Standardiser les connexions
+Au lieu d’avoir une intégration spéciale pour chaque modèle d’IA et chaque outil, MCP propose un protocole unique.
+Cela réduit la complexité, le code à maintenir, et facilite la réutilisation des mêmes serveurs MCP avec différents assistants IA.
+
+2) Donner du contexte riche aux modèles
+Un modèle d’IA seul ne connaît pas les données locales d’une organisation (fichiers, bases de données, outils métiers).
+MCP lui permet de récupérer :
+- des documents,
+- des données d’entreprise,
+- des informations temps réel (météo, calendrier, systèmes internes),
+pour répondre de manière plus pertinente.
+
+3) Faciliter la création d’agents IA
+Avec MCP, il devient plus simple de construire des “agents” capables de :
+- lire des données,
+- prendre des décisions,
+- appeler des outils,
+- exécuter des actions concrètes (envoyer un mail, créer un ticket, lancer une requête SQL, etc.).
+
+4) Réduire le problème d’intégration N×M
+Avant MCP :
+- pour chaque modèle d’IA (N),
+- et chaque outil/service (M),
+il fallait souvent une intégration spécifique.
+
+Avec MCP, on vise :
+- 1 manière standard de se connecter,
+- des serveurs MCP réutilisables,
+- des clients qui savent parler le même protocole.
+
+5) Encourager l’ouverture et l’interopérabilité
+Comme MCP est ouvert, plusieurs acteurs (OpenAI, Anthropic, Google, etc.) peuvent l’adopter et le faire évoluer, ce qui favorise un écosystème commun pour les agents IA.

@@ -1,0 +1,49 @@
+Voici un fonctionnement simplifié du Model Context Protocol (MCP).
+
+1) Initialisation
+Le client MCP se connecte à un serveur MCP.
+Il peut demander :
+- la liste des outils (tools),
+- la liste des ressources disponibles (resources),
+- d’éventuelles informations de configuration.
+
+2) Découverte
+Le client obtient :
+- les noms des outils,
+- les paramètres attendus,
+- les descriptions (à quoi sert chaque outil).
+
+Exemples d’outils :
+- “search_documents(query)”
+- “get_student(id)”
+- “send_email(to, subject, body)”
+- “run_sql(query)”
+
+3) Interaction avec le modèle d’IA
+L’utilisateur pose une question à l’assistant IA.
+Le modèle, grâce au client MCP, peut décider :
+- d’appeler un outil pour récupérer des données,
+- de lire une ressource (par exemple un fichier),
+- ou de répondre directement si le contexte suffit.
+
+4) Appel d’outil
+Quand le modèle veut utiliser un outil, le client MCP :
+- envoie une requête au serveur MCP avec le nom de l’outil + les paramètres,
+- attend la réponse (résultats, erreurs, etc.),
+- renvoie ces résultats au modèle.
+
+5) Réponse à l’utilisateur
+Le modèle combine :
+- la question de l’utilisateur,
+- le résultat des outils appelés via MCP,
+- son propre raisonnement,
+pour retourner une réponse finale.
+
+6) Boucle
+L’assistant peut répéter plusieurs fois :
+- appel d’outil,
+- récupération de contexte,
+- amélioration de réponse,
+jusqu’à ce que la tâche soit accomplie.
+
+Ce fonctionnement permet de connecter le modèle à des données vivantes, au lieu de rester limité à ce qu’il a appris pendant son entraînement.

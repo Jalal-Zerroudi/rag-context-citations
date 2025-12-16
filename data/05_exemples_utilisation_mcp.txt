@@ -1,0 +1,53 @@
+Voici quelques exemples d’utilisation du Model Context Protocol (MCP).
+
+1) Assistant développeur
+Un assistant IA intégré dans un IDE peut :
+- lire les fichiers du projet,
+- explorer le dépôt Git,
+- lancer les tests,
+- interagir avec une base de bugs ou un système de tickets.
+
+Grâce à MCP :
+- un serveur MCP “Git” donne accès aux commits,
+- un serveur MCP “CI” donne l’état des tests,
+- un serveur MCP “docs” donne accès aux documentations internes.
+
+2) Assistant entreprise
+Dans une entreprise, un assistant IA peut :
+- consulter le CRM (clients, offres, factures),
+- lire des documents internes (politiques, procédures),
+- créer automatiquement un compte rendu de réunion,
+- aider à préparer des réponses à des emails clients.
+
+MCP permet de connecter l’assistant à :
+- la base de données interne,
+- les outils cloud (Drive, Slack, Notion),
+- les APIs métiers.
+
+3) Assistant data / analytique
+Un agent IA peut utiliser MCP pour :
+- lancer des requêtes SQL,
+- lire des dashboards,
+- générer des rapports en texte à partir de données brutes.
+
+4) Assistant étudiant / université
+Un assistant pour les étudiants peut :
+- lire l’emploi du temps,
+- consulter les notes,
+- parcourir les documents de cours dans un drive,
+- rédiger un email au professeur.
+
+MCP sert de pont entre :
+- le modèle d’IA,
+- le système de gestion des étudiants,
+- le calendrier,
+- la messagerie.
+
+5) Intégration avec des workflows existants
+Un agent peut :
+- déclencher un paiement via une API,
+- créer une facture,
+- envoyer un SMS ou une notification,
+- mettre à jour un ticket dans un outil de support.
+
+Toutes ces actions passent par des serveurs MCP qui exposent ces capacités de façon standard.

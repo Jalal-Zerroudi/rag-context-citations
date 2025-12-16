@@ -1,0 +1,49 @@
+
+AVANTAGES DU MCP
+
+1) Standardisation
+MCP fournit un langage commun pour connecter les modèles d’IA aux outils.
+Les mêmes serveurs MCP peuvent être utilisés par plusieurs assistants différents.
+
+2) Réutilisation
+Une fois qu’un serveur MCP est écrit pour un système (par exemple : une base de données, GitHub, Google Drive), il peut être réutilisé dans plusieurs projets et par plusieurs modèles.
+
+3) Séparation des responsabilités
+- Le serveur MCP s’occupe de parler au système externe (API, base, fichiers).
+- Le client MCP s’occupe de dialoguer avec l’IA.
+- Le modèle se concentre sur le raisonnement et la génération de texte.
+
+4) Meilleur contexte
+MCP permet d’aller chercher des données à jour :
+- documents récents,
+- états système,
+- résultats de requêtes.
+Cela améliore la pertinence des réponses.
+
+5) Écosystème ouvert
+Comme MCP est ouvert, de plus en plus d’outils, de frameworks et d’acteurs de l’IA l’adoptent.
+
+LIMITES ET CHALLENGES
+
+1) Complexité de sécurité
+Donner accès à des outils puissants (fichiers, bases, paiements) via un modèle d’IA pose des questions de sécurité :
+- gestion des permissions,
+- protection contre les attaques de type “prompt injection”,
+- validation des actions avant exécution.
+
+2) Nécessité de bien concevoir les serveurs MCP
+Un mauvais design (trop d’outils, pas de garde-fous, descriptions floues) peut rendre l’agent moins fiable ou dangereux.
+
+3) Dépendance à une bonne orchestration
+Le protocole MCP ne remplace pas :
+- la nécessité de surveiller l’agent,
+- les règles métier,
+- les validations humaines sur certaines actions sensibles.
+
+4) Coût d’intégration initial
+Il faut au départ :
+- développer des serveurs MCP pour les systèmes internes,
+- les tester,
+- documenter leur usage.
+
+Mais ce coût est compensé par la réutilisation à long terme.
