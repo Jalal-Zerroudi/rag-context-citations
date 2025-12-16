@@ -194,9 +194,3 @@ Dans `build_or_load_index(...)` :
 - **Index vide** : vérifie `data/` (fichiers `.txt` / `.pdf`)
 - **PDF scanné** : pas de texte extractible (OCR non inclus)
 - **Cache incohérent** : supprime `cache/` puis relance
-
----
-
-## 📄 Licence
-
-À définir (MIT / Apache-2.0 / GPL…).
