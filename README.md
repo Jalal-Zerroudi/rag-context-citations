@@ -2,6 +2,11 @@
 
 RAG local (**.txt / .pdf → chunks → embeddings → FAISS**) avec un mode **EXTRACTION STRICTE** : la réponse doit être **uniquement** composée d’extraits **copiés-collés** depuis les **SOURCES**, et **chaque ligne** doit finir par une citation `[1]`, `[2]`, etc.  
 Si le modèle oublie les citations, un post-traitement tente de **recoller automatiquement** le bon `[id]` par matching dans les chunks récupérés.
+## 🏗️ Architecture
+
+<p align="center">
+  <img src="architecture.png" alt="RAG Architecture" width="900">
+</p>
 
 ✅ Deux façons d’utiliser le projet :
 - **Notebook** (`main.ipynb`) : tester rapidement la logique
