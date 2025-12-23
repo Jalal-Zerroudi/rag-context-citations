@@ -18,10 +18,12 @@ def sha256_file(path: Path) -> str:
             h.update(chunk)
     return h.hexdigest()
 
-def iter_files(data_dir: Path) -> Iterator[Path]:
-    for p in data_dir.rglob("*"):
-        if p.is_file() and p.suffix.lower() in {".txt", ".pdf"}:
-            yield p
+def iter_files(data_dir: Path | List[Path]) -> Iterator[Path]:
+    dirs = [data_dir] if isinstance(data_dir, Path) else data_dir
+    for directory in dirs:
+        for p in directory.rglob("*"):
+            if p.is_file() and p.suffix.lower() in {".txt", ".pdf"}:
+                yield p
 
 def load_txt(path: Path) -> List[Document]:
     txt = path.read_text(encoding="utf-8", errors="ignore")

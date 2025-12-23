@@ -42,7 +42,7 @@ def _ensure_dirs(cache_dir: Path):
     (cache_dir / "embeddings").mkdir(parents=True, exist_ok=True)
 
 def build_or_load_index(
-    data_dir: Path,
+    data_dir: Path | List[Path],
     cache_dir: Path,
     embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
     chunk_size: int = 900,
