@@ -8,9 +8,13 @@ Si le modèle oublie les citations, un post-traitement tente de **recoller autom
   <img src="architecture.png" alt="RAG Architecture" width="900">
 </p>
 
-✅ Deux façons d’utiliser le projet :
+✅ Trois modes sont prévus :
 - **Notebook** (`main.ipynb`) : tester rapidement la logique
-- **Application Web + CLI** (`app.py`) : UI web + API JSON + mode terminal
+- **CLI** (`app.py --ask ...`) : interroger le corpus depuis le terminal
+- **Serveur HTTP** (`app.py --web`) : exposer l’API JSON
+
+> [!NOTE]
+> La route d’interface `/` attend `templates/index.html`, mais ce fichier n’est pas actuellement versionné. L’API `POST /api/ask` reste définie dans `app.py` ; l’interface web complète nécessite l’ajout du template manquant.
 
 ---
 
@@ -43,7 +47,6 @@ Si le modèle oublie les citations, un post-traitement tente de **recoller autom
 ├── app.py
 ├── main.ipynb
 ├── requirements.txt
-├── .env
 ├── data/
 │   ├── 01_definition_mcp.txt
 │   ├── 02_objectifs_mcp.txt
@@ -52,13 +55,11 @@ Si le modèle oublie les citations, un post-traitement tente de **recoller autom
 │   ├── chunks/
 │   ├── embeddings/
 │   └── file_hashes.json
-├── rag/
-│   ├── atlascloud.py
-│   ├── indexer.py
-│   ├── loaders.py
-│   └── retriever.py
-└── templates/
-    └── index.html
+└── rag/
+    ├── atlascloud.py
+    ├── indexer.py
+    ├── loaders.py
+    └── retriever.py
 ```
 
 ---
@@ -134,15 +135,13 @@ python app.py --help
 
 ---
 
-## 🌐 Application Web
+## 🌐 Serveur API
 
 ```bash
 python app.py --web --host 127.0.0.1 --port 8000
 ```
 
-Puis ouvre :
-
-- `http://127.0.0.1:8000/`
+Le serveur expose `POST /api/ask` sur `http://127.0.0.1:8000`. La page `http://127.0.0.1:8000/` ne peut pas être rendue tant que `templates/index.html` n’a pas été ajouté au dépôt.
 
 ---
 
