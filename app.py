@@ -404,13 +404,19 @@ def run_web(retriever: Retriever, root: Path, host: str, port: int):
     def api_ask():
         data = request.get_json(force=True, silent=True) or {}
         question = (data.get("question") or "").strip()
-        topk = int(data.get("topk") or 6)
-        strict = bool(data.get("strict", True))
 
         if not question:
             return jsonify({"error": "❌ Question vide"}), 400
 
+        try:
+            topk = int(data.get("topk", 6))
+        except (TypeError, ValueError):
+            return jsonify({"error": "❌ topk doit être un entier entre 1 et 12"}), 400
         topk = max(1, min(12, topk))
+
+        strict = data.get("strict", True)
+        if not isinstance(strict, bool):
+            return jsonify({"error": "❌ strict doit être un booléen"}), 400
 
         try:
             result = answer_with_rag(retriever, question, topk=topk, strict=strict)
