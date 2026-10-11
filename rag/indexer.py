@@ -12,6 +12,11 @@ from sentence_transformers import SentenceTransformer
 from .loaders import Document, iter_files, load_any, sha256_file
 
 def chunk_text(text: str, chunk_size: int = 900, overlap: int = 150) -> List[str]:
+    if chunk_size <= 0:
+        raise ValueError("chunk_size must be greater than 0")
+    if overlap < 0 or overlap >= chunk_size:
+        raise ValueError("overlap must be between 0 and chunk_size - 1")
+
     text = " ".join(text.split())
     if not text:
         return []
