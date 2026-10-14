@@ -170,18 +170,23 @@ def _find_best_ref_id_for_line(line_no_cit: str, retrieved) -> Optional[int]:
 
 def _ensure_citation(line: str, retrieved, strict: bool) -> Optional[str]:
     """
-    Si pas de [id], on essaie de le déduire par matching dans les sources.
-    Si impossible en strict -> None (on drop la ligne).
+    Valide un [id] existant contre le chunk cité ou le déduit par matching.
+    Si aucune source ne contient la ligne en mode strict -> None (on drop la ligne).
     """
     line = line.strip()
     if not line:
         return None
 
-    if CIT_END_RE.search(line):
-        return line
-
-    # pas une phrase (ex: "—" etc.) -> drop en strict
     base = _remove_trailing_citation(line)
+    citation = CIT_END_RE.search(line)
+    if citation:
+        cited_id = int(citation.group(1))
+        target = _norm_for_match(base)
+        for r in retrieved:
+            if int(r.ref_id) == cited_id and target in _norm_for_match(r.chunk.text):
+                return f"{base} [{cited_id}]"
+
+    # Citation absente ou invalide : rechercher le passage qui contient réellement la ligne.
     ref_id = _find_best_ref_id_for_line(base, retrieved)
     if ref_id is None:
         return None if strict else line
