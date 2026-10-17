@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Dict, Any, Tuple
+import hashlib
 import json
 import numpy as np
 from tqdm import tqdm
@@ -46,6 +47,24 @@ def _ensure_dirs(cache_dir: Path):
     (cache_dir / "chunks").mkdir(parents=True, exist_ok=True)
     (cache_dir / "embeddings").mkdir(parents=True, exist_ok=True)
 
+def _cache_key(
+    file_path: Path,
+    file_hash: str,
+    embedding_model_name: str,
+    chunk_size: int,
+    overlap: int,
+) -> str:
+    """Return a stable key for both the document and its indexing settings."""
+    payload = {
+        "path": str(file_path.resolve()),
+        "file_hash": file_hash,
+        "embedding_model_name": embedding_model_name,
+        "chunk_size": chunk_size,
+        "overlap": overlap,
+    }
+    serialized = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(serialized).hexdigest()
+
 def build_or_load_index(
     data_dir: Path,
     cache_dir: Path,
@@ -54,9 +73,9 @@ def build_or_load_index(
     overlap: int = 150,
 ) -> RAGIndex:
     """
-    Cache par fichier:
-    - cache/chunks/<hash>.jsonl
-    - cache/embeddings/<hash>.npy
+    Cache par fichier et configuration d'indexation:
+    - cache/chunks/<cache_key>.jsonl
+    - cache/embeddings/<cache_key>.npy
     + cache/file_hashes.json (mapping path -> hash)
     On rebuild l'index FAISS à partir des caches.
     """
@@ -79,9 +98,10 @@ def build_or_load_index(
     for fp in tqdm(files, desc="Scan & Cache"):
         file_hash = sha256_file(fp)
         new_hashes[str(fp)] = file_hash
+        cache_key = _cache_key(fp, file_hash, embedding_model_name, chunk_size, overlap)
 
-        chunks_file = cache_dir / "chunks" / f"{file_hash}.jsonl"
-        emb_file = cache_dir / "embeddings" / f"{file_hash}.npy"
+        chunks_file = cache_dir / "chunks" / f"{cache_key}.jsonl"
+        emb_file = cache_dir / "embeddings" / f"{cache_key}.npy"
 
         need_recompute = (old_hashes.get(str(fp)) != file_hash) or (not chunks_file.exists()) or (not emb_file.exists())
 
