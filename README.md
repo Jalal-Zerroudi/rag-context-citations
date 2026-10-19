@@ -33,9 +33,9 @@ Si le modèle oublie les citations, un post-traitement tente de **recoller autom
   - `Titre:` → blocs + sous-puces
   - `X : - A - B` → puces multi-lignes
   - suppression de guillemets ajoutés par certains modèles
-- Cache par fichier (SHA256) :
-  - `cache/chunks/<hash>.jsonl`
-  - `cache/embeddings/<hash>.npy`
+- Cache par fichier et configuration (clé SHA256) :
+  - `cache/chunks/<cache_key>.jsonl`
+  - `cache/embeddings/<cache_key>.npy`
   - `cache/file_hashes.json`
 
 ---
@@ -189,6 +189,16 @@ Dans `build_or_load_index(...)` :
 - `chunk_size` (défaut: `900`)
 - `overlap` (défaut: `150`)
 - `embedding_model_name` (défaut: `sentence-transformers/all-MiniLM-L6-v2`)
+
+---
+
+### Découpage et réutilisation du cache
+
+`chunk_size` et `overlap` sont exprimés en **caractères Python**, pas en tokens du modèle. Les espaces et retours à la ligne sont d'abord normalisés ; le découpage utilise ensuite des tranches de texte et peut couper un mot. Les valeurs doivent respecter `chunk_size > 0` et `0 <= overlap < chunk_size`.
+
+La clé de cache combine le **chemin absolu du document**, son **SHA256**, le **nom du modèle d'embedding**, `chunk_size` et `overlap`. Modifier l'un de ces éléments produit une autre clé : les anciens chunks et vecteurs ne sont pas réutilisés pour cette configuration. Le modèle choisi dans `Retriever` doit correspondre à celui utilisé pour construire l'index.
+
+À chaque construction, l'index FAISS est recréé en mémoire à partir des fichiers actuellement présents dans le corpus. Les anciennes entrées de cache ne sont pas automatiquement supprimées du disque. Les fichiers JSONL contiennent le texte des chunks et leurs métadonnées : protégez donc `cache/` comme le corpus source, même si ses noms de fichiers sont hachés.
 
 ---
 
