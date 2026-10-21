@@ -1,6 +1,6 @@
 # rag-context-citations
 
-RAG local (**.txt / .pdf → chunks → embeddings → FAISS**) avec un mode **EXTRACTION STRICTE** : la réponse doit être **uniquement** composée d’extraits **copiés-collés** depuis les **SOURCES**, et **chaque ligne** doit finir par une citation `[1]`, `[2]`, etc.  
+Indexation et recherche locales (**.txt / .pdf → chunks → embeddings → FAISS**) avec un mode **EXTRACTION STRICTE** : la réponse doit être **uniquement** composée d’extraits **copiés-collés** depuis les **SOURCES**, et **chaque ligne** doit finir par une citation `[1]`, `[2]`, etc.  
 Si le modèle oublie les citations, un post-traitement tente de **recoller automatiquement** le bon `[id]` par matching dans les chunks récupérés.
 ## 🏗️ Architecture
 
@@ -98,6 +98,16 @@ ATLASCLOUD_API_KEY=VOTRE_CLE_ICI
 # Optionnel
 ATLAS_MODEL=openai/gpt-oss-20b
 ```
+
+
+## 🔒 Confidentialité et frontière locale
+
+L'indexation, le calcul des embeddings et la recherche FAISS s'exécutent localement. La génération de la réponse n'est toutefois pas entièrement locale : `app.py` inclut la question, le texte des chunks récupérés et leurs métadonnées dans la requête HTTPS envoyée à `https://api.atlascloud.ai/v1/chat/completions`.
+
+- N'indexe pas de documents confidentiels, personnels ou réglementés sans avoir vérifié que leur transmission à AtlasCloud est autorisée.
+- Le mode `strict=True` limite la réponse aux sources récupérées, mais n'empêche pas leur envoi au fournisseur.
+- Le serveur écoute par défaut sur `127.0.0.1`. L'API n'intègre ni authentification ni limitation de débit : ne l'expose pas avec `--host 0.0.0.0` sans contrôle réseau, terminaison TLS et authentification en amont.
+- Le fichier `.env` est ignoré par Git ; conserve néanmoins `ATLASCLOUD_API_KEY` hors des journaux, captures et fichiers partagés.
 
 ---
 
