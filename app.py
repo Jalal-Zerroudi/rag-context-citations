@@ -237,10 +237,11 @@ def structure_nested_markdown(answer: str, retrieved, strict: bool) -> str:
     # build blocks: title -> items
     blocks: List[Dict[str, Any]] = []
     current_title: Optional[str] = None
+    current_title_ref_id: Optional[int] = None
     current_items: List[str] = []
 
     def flush():
-        nonlocal current_title, current_items
+        nonlocal current_title, current_title_ref_id, current_items
         if current_title is None and not current_items:
             return
         # ensure citations on items
@@ -254,16 +255,24 @@ def structure_nested_markdown(answer: str, retrieved, strict: bool) -> str:
                 items_ok.append(it2)
 
         if items_ok:
-            blocks.append({"title": current_title, "items": items_ok})
+            blocks.append({
+                "title": current_title,
+                "title_ref_id": current_title_ref_id,
+                "items": items_ok,
+            })
 
         current_title = None
+        current_title_ref_id = None
         current_items = []
 
     for ln in lines:
         # title line ends with ":" and has no citation at end
         if TITLE_RE.match(ln) and not CIT_END_RE.search(ln) and not ln.startswith("- "):
             flush()
-            current_title = ln  # keep exact text
+            title_ref_id = _find_best_ref_id_for_line(ln, retrieved)
+            if title_ref_id is not None or not strict:
+                current_title = ln
+                current_title_ref_id = title_ref_id
             continue
         current_items.append(ln)
 
@@ -280,7 +289,8 @@ def structure_nested_markdown(answer: str, retrieved, strict: bool) -> str:
         items = b["items"]
 
         if title:
-            out.append(f"- **{title}**")
+            title_citation = f" [{b['title_ref_id']}]" if b["title_ref_id"] is not None else ""
+            out.append(f"- **{title}**{title_citation}")
             for it in items:
                 out.append(f"  - {it}")
         else:

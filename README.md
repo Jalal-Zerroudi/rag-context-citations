@@ -28,6 +28,7 @@ Si le modèle oublie les citations, un post-traitement tente de **recoller autom
   - pas d’invention
   - pas de reformulation
   - citations obligatoires
+  - validation des titres et des extraits contre les chunks récupérés
   - sinon : `❌ Information non disponible dans mes documents.`
 - Mise en forme Markdown :
   - `Titre:` → blocs + sous-puces
