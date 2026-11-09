@@ -184,6 +184,18 @@ Réponse :
 
 ---
 
+## 🎛️ Valeurs par défaut selon l’interface
+
+Le mode strict n’a pas la même valeur par défaut selon le point d’entrée :
+
+- **CLI** : le mode strict est désactivé par défaut ; ajoute `--strict` pour limiter la réponse aux extraits vérifiés du corpus.
+- **API `POST /api/ask`** : `strict` vaut `true` lorsqu’il est omis. La valeur fournie doit être un booléen JSON (`true` ou `false`).
+- **Mode non strict** : le modèle peut compléter la réponse avec ses connaissances générales. Les citations sont demandées, mais elles ne sont pas validées ni imposées par le post-traitement strict.
+
+Pour des réponses reproductibles et traçables uniquement vers les documents indexés, active explicitement le mode strict dans le CLI et conserve `"strict": true` dans les appels API.
+
+---
+
 ## 🧠 Règles du mode strict (important)
 
 En `strict=True` :
