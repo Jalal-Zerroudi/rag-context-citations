@@ -182,6 +182,22 @@ Réponse :
 - `answer` : Markdown + section **Sources consultées**
 - `retrieved` : liste des chunks (id, score, fichier, page, preview)
 
+### Validation des requêtes et erreurs
+
+| Entrée | Comportement de l'API |
+| --- | --- |
+| `question` absente, vide ou composée d'espaces | Réponse `400` avec `{"error":"❌ Question vide"}` |
+| `topk` omis | Utilise `6` |
+| `topk` convertible en entier | Ramène la valeur dans l'intervalle `1` à `12` avant la recherche |
+| `topk` non convertible en entier | Réponse `400` avec un message indiquant l'intervalle accepté |
+| `strict` omis | Utilise `true` |
+| `strict` autre qu'un booléen JSON | Réponse `400` avec `{"error":"❌ strict doit être un booléen"}` |
+
+Une requête valide renvoie `200` avec `answer` et `retrieved`. Une erreur inattendue
+pendant la recherche ou la génération renvoie `500` dans un objet
+`error`. Les clients doivent donc vérifier le code HTTP avant de lire les champs
+de succès.
+
 ---
 
 ## 🎛️ Valeurs par défaut selon l’interface
