@@ -92,13 +92,29 @@ pip install -r requirements.txt
 
 ## 🔐 Configuration (.env)
 
-Crée un fichier `.env` à la racine :
+Copie le modèle versionné, puis renseigne ta propre clé :
+
+```bash
+# macOS / Linux
+cp .env.example .env
+```
+
+```powershell
+# Windows PowerShell
+Copy-Item .env.example .env
+```
+
+Le fichier `.env` obtenu contient :
 
 ```env
-ATLASCLOUD_API_KEY=VOTRE_CLE_ICI
-# Optionnel
+ATLASCLOUD_API_KEY=
 ATLAS_MODEL=openai/gpt-oss-20b
 ```
+
+`ATLASCLOUD_API_KEY` est obligatoire pour générer une réponse. `ATLAS_MODEL` est
+optionnel : si la variable est absente, le code utilise
+`openai/gpt-oss-20b`. Ne place jamais une vraie clé dans `.env.example` ; seul le
+fichier local `.env`, ignoré par Git, doit contenir le secret.
 
 
 ## 🔒 Confidentialité et frontière locale
@@ -243,7 +259,7 @@ La clé de cache combine le **chemin absolu du document**, son **SHA256**, le **
 
 ## 🧯 Dépannage
 
-- **ATLASCLOUD_API_KEY manquante** : vérifie `.env`
+- **ATLASCLOUD_API_KEY manquante** : copie `.env.example` vers `.env`, puis renseigne la clé
 - **Index vide** : vérifie `data/` (fichiers `.txt` / `.pdf`)
 - **PDF scanné** : pas de texte extractible (OCR non inclus)
 - **Cache incohérent** : supprime `cache/` puis relance
