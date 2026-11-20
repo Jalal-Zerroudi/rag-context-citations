@@ -45,22 +45,25 @@ Si le modèle oublie les citations, un post-traitement tente de **recoller autom
 
 ```text
 .
-├── app.py
-├── main.ipynb
+├── .env.example            # modèle de configuration sans secret
+├── app.py                  # CLI et serveur Flask
+├── architecture.png        # schéma affiché dans ce README
+├── main.ipynb              # démonstration interactive
 ├── requirements.txt
-├── data/
+├── data/                   # 7 documents texte d'exemple sur MCP
 │   ├── 01_definition_mcp.txt
 │   ├── 02_objectifs_mcp.txt
 │   ├── ...
-├── cache/                  # auto-généré
+│   └── 07_sans_mcp_vs_avec_mcp.txt
+├── cache/                  # auto-généré localement et ignoré par Git
 │   ├── chunks/
 │   ├── embeddings/
 │   └── file_hashes.json
 └── rag/
-    ├── atlascloud.py
-    ├── indexer.py
-    ├── loaders.py
-    └── retriever.py
+    ├── atlascloud.py       # appel du fournisseur LLM
+    ├── indexer.py          # chargement, découpage, embeddings et cache
+    ├── loaders.py          # extraction TXT/PDF
+    └── retriever.py        # recherche vectorielle FAISS
 ```
 
 ---
