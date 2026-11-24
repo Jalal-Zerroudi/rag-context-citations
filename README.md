@@ -120,6 +120,14 @@ optionnel : si la variable est absente, le code utilise
 fichier local `.env`, ignoré par Git, doit contenir le secret.
 
 
+## 🌐 Premier lancement et dépendances réseau
+
+Au démarrage, `build_or_load_index` et `Retriever` initialisent le modèle d'embedding `sentence-transformers/all-MiniLM-L6-v2`. S'il n'est pas déjà présent dans le cache local de Sentence Transformers, son premier chargement peut nécessiter une connexion Internet et prendre plus de temps. Les lancements suivants réutilisent ce cache de modèle ainsi que les chunks et embeddings conservés dans le dossier `cache/`.
+
+Une fois le modèle d'embedding disponible localement, l'indexation et la recherche FAISS peuvent fonctionner sans réseau. La génération d'une réponse appelle toutefois toujours AtlasCloud et nécessite donc une connexion, une clé `ATLASCLOUD_API_KEY` valide et un fournisseur disponible.
+
+`ATLAS_MODEL` sélectionne uniquement le modèle de génération envoyé à AtlasCloud ; cette variable ne change pas le modèle d'embedding. Pour utiliser un autre embedder, modifie de manière cohérente `embedding_model_name` lors de la construction de l'index et `embedder_name` dans `Retriever`, puis reconstruis l'index.
+
 ## 🔒 Confidentialité et frontière locale
 
 L'indexation, le calcul des embeddings et la recherche FAISS s'exécutent localement. La génération de la réponse n'est toutefois pas entièrement locale : `app.py` inclut la question, le texte des chunks récupérés et leurs métadonnées dans la requête HTTPS envoyée à `https://api.atlascloud.ai/v1/chat/completions`.
